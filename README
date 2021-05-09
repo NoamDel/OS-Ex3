@@ -1,0 +1,54 @@
+noamdel, amiweil
+Noam Delbari (315005066), Amichai Weil(052816469)
+EX: 3
+
+FILES:
+MapReduceFramework.cpp -- this is where we wrote all te code. including JobInfo class.
+Barrier.cpp  --  as is.
+Barrier.h  --  as is.
+fileWordCounter_comparison.png -- comparison graph
+Makefile
+
+
+REMARKS:
+
+Hardware:
+aquarium computers (from distance):
+
+CPU(s):              4
+Thread(s) per core:  1
+Core(s) per socket:  4
+Socket(s):           1
+Vendor ID:           GenuineIntel
+CPU family:          6
+Model:               94
+Model name:          Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz
+
+
+
+ANSWERS:
+ ==============   ANSWERS  ===============
+
+
+
+Q1:
+We can see it almost saturates at 10(64 MicroSeconds). then totally saturates at 100 (58 McS).
+ (measured till 500, still 58-59, didn't want to clutter the graph)
+
+In our opinion (Estimated average blocking time) / (Estimated average processing time for request) + 1
+might be optimal. We think that this number will be optimal since we would like to balance the utilization
+of CPU between low number of blocking operations and hugh number of context switches. If we will have a thread that runs:
+(Estimated average blocking time) / (Estimated average processing time for request + Estimated average blocking time)
+on the CPU, then (Estimated average blocking time - Estimated average processing time for request) threads will utilize the CPU
+optimally.
+
+Q2:
+a. 2n. There are n threads and each one have a child. When fork() returns, the parent will receive pid != 0
+and the child will have pid = 0.The child process run and print a line then terminates while parent enters the if condition and will wait for the child.
+All parents of a child thread enter the barrier as soon as the child will terminate in function Waitpid().
+Finally, all threads will be released when the last thread will use broadcast when he try to register to the barrier.
+
+b. (n!)^2. There are n! options for the child processed to arrive in any order depending on the scheduling.
+There are n! options for the parent processed to enter a barrier and exit and the child finishes and
+then, all the threads print the line in any order.
+
